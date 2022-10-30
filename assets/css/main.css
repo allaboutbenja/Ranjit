@@ -196,14 +196,15 @@ section.search select{
 .product .product-body .product__price::before{content: '$ ';}
 .product .product-body .product__price::after{content: ' clp ';}
 .product button{
-    font-size: 24px;
+    font-size: 14px;
     padding: 5px 30px;
 }
 .button{
     padding: 5px 10px;
-    border: 1px solid #000;
+    border: 1px solid #0005;
     background-color: #fff;
     cursor: pointer;
+    color: #000d;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
@@ -216,9 +217,7 @@ section.search select{
     transition: .3s ease all;
 }
 .button:hover{
-    border: 1px solid #fff;
-    color: #fff;
-    background-color: #000;
+    border: 1px solid #000f;
 }
 footer{
     position: relative;
