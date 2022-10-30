@@ -165,6 +165,7 @@ section.search select{
     align-items: center;
     gap: 20px;
     padding: 30px 10px;
+    box-shadow: 2px 2px 12px 2px #0002;
 }
 .product img{
     object-fit: contain;
