@@ -83,7 +83,7 @@
         </div>
 
         <div class="carshop" id="carshop">
-            <h4>Carrito Flutur</h4>
+            <h4>Carrito Ranjit</h4>
             <ul class="carshop__products" id="listProductsCarshop">
                 <template id="product-carshop-template">
                     <li>
