@@ -75,7 +75,7 @@
             </div>
             <div class="head__input">
                 <img src="./assets/images/buscar-white.png" alt="search">
-                <input type="text" title="search" placeholder="Buscar Productos...">
+                <input type="text" title="search" placeholder="Buscar...">
             </div>
             <div class="head__carrito">
                 <img onclick="toggleCarshop()" src="./assets/images/carrito-de-compras.png" alt="carrito">
