@@ -83,12 +83,12 @@
     gap: 10px;
     padding: 20px 0;
     font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
 }
 .carshop__footer .send-button img{
     height: 30px;
-
 }
-
 .carshop .carshop__products li img{
     width: 100px;
     height: 100px;
