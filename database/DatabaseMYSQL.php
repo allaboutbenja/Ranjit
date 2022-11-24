@@ -1,6 +1,6 @@
 <?php
     class DatabaseMYSQL{
-        private mysqli $db;
+        private $db;
         private string $localhost;
         private string $user;
         private string $pass;
