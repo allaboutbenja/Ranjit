@@ -1,0 +1,123 @@
+.carshop{
+    background-color: white;
+    position: fixed;
+    right: -100%;
+    top: 0;
+    height: 100vh;
+    z-index: 999;
+    width: 400px;
+    -webkit-transition: .5s ease-in-out all;
+    -moz-transition: .5s ease-in-out all;
+    -ms-transition: .5s ease-in-out all;
+    -o-transition: .5s ease-in-out all;
+    transition: .5s ease-in-out all;
+}
+.carshop h4 {
+    text-align: center;
+    font-size: 24px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.product__stock{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+}
+.product__stock button{
+    width: 20px;
+}
+.carshop .carshop__products{
+    width: 100%;
+    height: calc(100vh - 150px);
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.carshop .carshop__products li {
+    width: 350px;
+    padding: 10px 20px;
+    display: flex;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border: 1px solid #000;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+.carshop__footer{
+    width: 100%;
+    height: 100px;
+    position: relative;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.carshop__footer .send-button{
+    height: 30px;
+    width: 170px;
+    color:white;
+    background-color: #25D366;
+    border: none;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0;
+    font-weight: 600;
+}
+.carshop__footer .send-button img{
+    height: 30px;
+
+}
+
+.carshop .carshop__products li img{
+    width: 100px;
+    height: 100px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+.shadow-carshop{
+    padding: 0;
+    width: 100vw;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: -100%;
+    background-color: #0004;
+    z-index: 99;
+}
+.shadow-carshop.is-active{
+    left: 0;
+}
+.carshop.is-active{
+    right: 0;
+}
+@media screen and (max-width: 700px) {
+    .carshop{
+        background-color: white;
+        width: 100vw;
+        z-index: 9999;
+    }
+}

@@ -1,3 +1,35 @@
+<?php
+    require './database/DatabaseMYSQL.php';
+    require './models/Product.php';
+    require './models/Category.php';
+    require './models/Brand.php';
+
+    $db = new DatabaseMYSQL();
+    $products = array();
+    $categories = array();
+    $brands = array();
+    $db->connect();
+
+    $sql = "SELECT * FROM products";
+    $resp = $db->query($sql);
+    while($rs = mysqli_fetch_array($resp)){
+        $products[] = new Product($rs[0],$rs[1],$rs[2],$rs[3],$rs[4],$rs[5],$rs[6],$rs[7]);
+    }
+
+    $sql = "SELECT * FROM categories";
+    $resp = $db->query($sql);
+    while($rs = mysqli_fetch_array($resp)){
+        $categories[] = new Category($rs[0],$rs[1]);
+    }
+
+    $sql = "SELECT * FROM brands";
+    $resp = $db->query($sql);
+    while($rs = mysqli_fetch_array($resp)){
+        $brands[] = new Brand($rs[0],$rs[1]);
+    }
+    $db->disconnect();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +38,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./assets/css/main.css">
+
 </head>
 <body>
     <header>
@@ -45,9 +78,37 @@
                 <input type="text" title="search" placeholder="Buscar Productos...">
             </div>
             <div class="head__carrito">
-                <img src="./assets/images/carrito-de-compras.png" alt="carrito">
+                <img onclick="toggleCarshop()" src="./assets/images/carrito-de-compras.png" alt="carrito">
             </div>
         </div>
+
+        <div class="carshop" id="carshop">
+            <h4>Carrito Flutur</h4>
+            <ul class="carshop__products" id="listProductsCarshop">
+                <template id="product-carshop-template">
+                    <li>
+                        <div class="product__stock">
+                            <button class="carshop__add"> + </button>
+                            <p class="carshop__cant">1</p>
+                            <button class="carshop__remove"> - </button>
+                        </div>
+                        <img src="./assets/images/alfajor.jpg" title="img" class="carshop__img"/>
+                        <div>
+                            <h6 class="carshop__title">Alfajor con manjar</h6>
+                            <p class="carshop__price">$2990</p>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+            <div class="carshop__footer">
+                <button class="send-button">
+                    <a href="https://api.whatsapp.com/send?phone=56920085211&text=Hola&type=phone_number&app_absent=0" target="_blank">Hacer pedido</a>
+                    <img src="./assets/images/whatsapp.png" title="img"/>
+                    </button>
+            </div>
+        </div>
+        <div class="shadow-carshop" id="shadow-carshop" onclick="toggleCarshop()"></div>
+
         <div class="header__title">
             <h1>Almacén Saludable</h1>
             <span>Natural - Vegano - Sin Gluten</span>
@@ -72,69 +133,28 @@
         </div> -->
         <div class="products">
             <div class="content">
-                <div class="product">
-                    <img src="./assets/images/alfajor.jpg" alt="Producto">
-                    <div class="product-body">
-                        <h6>Alfajor sin azucar con cafe y leche</h6>
-                        <span class="product__cant">(6 unidades)</span>
-                        <span class="product__price">2400</span>
-                    </div>
-                    <button class="button">Agregar al carrito</button> 
-                </div>
-                <div class="product">
-                    <img src="./assets/images/lata.png" alt="Producto">
-                    <div class="product-body">
-                        <h6>Alfajor sin azucar con cafe y leche</h6>
-                        <span class="product__cant">(6 unidades)</span>
-                        <span class="product__price">2400</span>
-                    </div>
-                    <button class="button">Agregar al carrito</button> 
-                </div>
-                <div class="product">
-                    <img src="./assets/images/lata.png" alt="Producto">
-                    <div class="product-body">
-                        <h6>Alfajor sin azucar con cafe y leche</h6>
-                        <span class="product__cant">(6 unidades)</span>
-                        <span class="product__price">2400</span>
-                    </div>
-                    <button class="button">Agregar al carrito</button> 
-                </div>
-                <div class="product">
-                    <img src="./assets/images/lata.png" alt="Producto">
-                    <div class="product-body">
-                        <h6>Alfajor sin azucar con cafe y leche</h6>
-                        <span class="product__cant">(6 unidades)</span>
-                        <span class="product__price">2400</span>
-                    </div>
-                    <button class="button">Agregar al carrito</button> 
-                </div>
-                <div class="product">
-                    <img src="./assets/images/lata.png" alt="Producto">
-                    <div class="product-body">
-                        <h6>Alfajor sin azucar con cafe y leche</h6>
-                        <span class="product__cant">(6 unidades)</span>
-                        <span class="product__price">2400</span>
-                    </div>
-                    <button class="button">Agregar al carrito</button> 
-                </div>
-                <div class="product">
-                    <img src="./assets/images/lata.png" alt="Producto">
-                    <div class="product-body">
-                        <h6>Alfajor sin azucar con cafe y leche</h6>
-                        <span class="product__cant">(6 unidades)</span>
-                        <span class="product__price">2400</span>
-                    </div>
-                    <button class="button">Agregar al carrito</button> 
-                </div>
-                <div class="product">
-                    <img src="./assets/images/lata.png" alt="Producto">
-                    <div class="product-body">
-                        <h6>Alfajor sin azucar con cafe y leche</h6>
-                        <span class="product__cant">(6 unidades)</span>
-                        <span class="product__price">2400</span>
-                    </div>
-                    <button class="button">Agregar al carrito</button> 
-                </div>
+
+                <?php
+                    foreach($products as $product){
+                        echo "
+                            <div class='product'>
+                                <img src='data:image/gif;base64,".$product->getImage()."' alt='Producto'>
+                                <div class='product-body'>
+                                    <h6>".$product->getTitle()."</h6>
+                                    <span class='product__cant'>(".$product->getStock()." unidades)</span>
+                                    <span class='product__price'>".$product->getPrice()."</span>
+                                </div>
+                                <button class='button' onclick='addCarshop(
+                                    \"".str_replace('"', '\"', $product->getTitle()) ."\",
+                                    \"".str_replace('"', '\"', $product->getStock()) ."\",
+                                    \"".str_replace('"', '\"', $product->getPrice()) ."\",
+                                    \"".str_replace('"', '\"', $product->getImage()) ."\",
+                                    )'>Agregar al carrito</button> 
+                            </div>
+                        ";
+                    }
+                    
+                ?>
             </div>
         </div>
     </section>
@@ -189,5 +209,21 @@
             </div>
         </div>
     </footer>
+    <script src="./js/main.js"></script>
+    <script>
+        const addCarshop = (title,stock,price,image) => {
+            const product = { title, stock:Number(stock), price, image }
+            const listProductsCarshop$ = document.getElementById('listProductsCarshop');
+            const $template = document.getElementById("product-carshop-template").content;
+            const $fragment = document.createDocumentFragment();
+            $template.querySelector(".carshop__title").textContent = title;
+            $template.querySelector(".carshop__img").src = 'data:image/gif;base64,'+image;
+            $template.querySelector(".carshop__price").textContent = price;
+    
+            let $clone = document.importNode($template,true);
+            $fragment.appendChild($clone);
+            listProductsCarshop$.appendChild($fragment)
+        }
+    </script>
 </body>
 </html>
