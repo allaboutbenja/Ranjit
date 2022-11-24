@@ -1,13 +1,13 @@
 <?php
 class Product{
-    private int $id;
-    private string $title;
-    private string $desc;
-    private string $stock;
-    private string $image;
-    private int $brand;
-    private int $category;
-    private string $price;
+    private $id;
+    private $title;
+    private $desc;
+    private $stock;
+    private $image;
+    private $brand;
+    private $category;
+    private $price;
 
     function __construct($id,$title,$desc,$stock,$image,$brand,$category,$price) {
         $this->id = $id;
@@ -19,30 +19,30 @@ class Product{
         $this->category = $category;
         $this->price = $price;
     }
-    public function getId():int {
+    public function getId() {
         return $this->id;
     }
-    public function getTitle():string {
+    public function getTitle() {
         return $this->title;
     }
-    public function getDesc():string {
+    public function getDesc() {
         return $this->desc;
     }
-    public function getStock():string {
+    public function getStock() {
         return $this->stock;
     }
 
-    public function getImage():string {
+    public function getImage() {
         return $this->image;
     }
     
-    public function getBrand():int {
+    public function getBrand() {
         return $this->brand;
     }
-    public function getCategory():int {
+    public function getCategory() {
         return $this->category;
     }
-    public function getPrice():string {
+    public function getPrice() {
         return $this->price;
     }
 }

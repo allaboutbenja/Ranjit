@@ -1,10 +1,10 @@
 <?php
     class DatabaseMYSQL{
         private $db;
-        private string $localhost;
-        private string $user;
-        private string $pass;
-        private string $nameDB;        
+        private $localhost;
+        private $user;
+        private $pass;
+        private $nameDB;        
 
         public function __construct($localhost = 'localhost', $user = 'root', $pass = '', $nameDB = 'ranjit')
         {
