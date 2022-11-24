@@ -38,7 +38,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./assets/css/main.css">
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -101,10 +101,10 @@
                 </template>
             </ul>
             <div class="carshop__footer">
-                <button class="send-button">
-                    <a href="https://api.whatsapp.com/send?phone=56920085211&text=Hola&type=phone_number&app_absent=0" target="_blank">Hacer pedido</a>
+                <a class="send-button" href="https://api.whatsapp.com/send?phone=56920085211&text=Hola&type=phone_number&app_absent=0" target="_blank">
+                    Hacer pedido
                     <img src="./assets/images/whatsapp.png" title="img"/>
-                    </button>
+                </a>
             </div>
         </div>
         <div class="shadow-carshop" id="shadow-carshop" onclick="toggleCarshop()"></div>
@@ -223,6 +223,7 @@
             let $clone = document.importNode($template,true);
             $fragment.appendChild($clone);
             listProductsCarshop$.appendChild($fragment)
+            showMessage('Producto agregado');
         }
     </script>
 </body>
