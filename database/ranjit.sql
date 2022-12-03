@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-11-2022 a las 02:19:32
+-- Tiempo de generación: 03-12-2022 a las 18:45:39
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -84,11 +84,19 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 
 CREATE TABLE `configurations` (
   `id` int(11) NOT NULL,
-  `banner` int(11) NOT NULL,
-  `whatsapp` int(11) NOT NULL,
-  `ig` int(11) NOT NULL,
-  `facebook` int(11) NOT NULL
+  `banner` varchar(300) NOT NULL,
+  `sub_banner` varchar(300) NOT NULL,
+  `whatsapp` varchar(300) NOT NULL,
+  `ig` varchar(300) NOT NULL,
+  `facebook` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `configurations`
+--
+
+INSERT INTO `configurations` (`id`, `banner`, `sub_banner`, `whatsapp`, `ig`, `facebook`) VALUES
+(1, 'Almacén Saludable', 'Natural - Vegano - Sin Gluten', '56920085211', 'https://www.instagram.com/allaboutbenja/', 'https://www.facebook.com/');
 
 -- --------------------------------------------------------
 
@@ -144,6 +152,12 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `configurations`
+--
+ALTER TABLE `configurations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `products`
 --
 ALTER TABLE `products`
@@ -166,6 +180,12 @@ ALTER TABLE `brands`
 --
 ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `configurations`
+--
+ALTER TABLE `configurations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
