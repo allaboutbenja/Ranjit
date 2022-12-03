@@ -3,11 +3,13 @@
     require './models/Product.php';
     require './models/Category.php';
     require './models/Brand.php';
+    require './models/Settings.php';
 
     $db = new DatabaseMYSQL();
     $products = array();
     $categories = array();
     $brands = array();
+    $settings;
     $db->connect();
 
     $sql = "SELECT * FROM products";
@@ -27,16 +29,23 @@
     while($rs = mysqli_fetch_array($resp)){
         $brands[] = new Brand($rs[0],$rs[1]);
     }
+
+    $sql = "SELECT * FROM configurations";
+    $resp = $db->query($sql);
+    while($rs = mysqli_fetch_array($resp)){
+        $settings = new Settings($rs[0],$rs[1],$rs[2],$rs[3],$rs[4],$rs[5]);
+    }
+
     $db->disconnect();
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ranjit</title>
     <link rel="stylesheet" href="./assets/css/main.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -73,10 +82,10 @@
                     </g>
                 </svg>
             </div>
-            <div class="head__input">
+            <!-- <div class="head__input">
                 <img src="./assets/images/buscar-white.png" alt="search">
                 <input type="text" title="search" placeholder="Buscar...">
-            </div>
+            </div> -->
             <div class="head__carrito">
                 <img onclick="toggleCarshop()" src="./assets/images/carrito-de-compras.png" alt="carrito">
             </div>
@@ -100,20 +109,14 @@
                     </li>
                 </template>
             </ul>
+            <div class="carshop-total">
+                <p id="cashop-total">Total: 0</p>
+            </div>
             <div class="carshop__footer">
-                <!-- <a 
-                    class="send-button" 
-                    href="https://api.whatsapp.com/send?phone=56920085211&text=Hola&type=phone_number&app_absent=0" 
-                    target="_blank"
-                    onclick="sendMessageWsp()"
-                    >
-                    Hacer pedido
-                    <img src="./assets/images/whatsapp.png" title="img"/>
-                </a> -->
                 <span
                     class="send-button" 
                     id="send-button-msg-wsp"
-                    onclick="sendMessageWsp()"
+                    onclick="sendMessageWsp('<?= $settings->getWhatsapp() ?>')"
                     >
                     Hacer pedido
                     <img src="./assets/images/whatsapp.png" title="img"/>
@@ -123,27 +126,24 @@
         <div class="shadow-carshop" id="shadow-carshop" onclick="toggleCarshop()"></div>
 
         <div class="header__title">
-            <h1>Almacén Saludable</h1>
-            <span>Natural - Vegano - Sin Gluten</span>
+            <h1><?= $settings->getBanner() ?></h1>
+            <span><?= $settings->getSubBanner() ?></span>
         </div>
         <div class="header__redes">
-            <img src="./assets/images/instagram.png" alt="">
-            <img src="./assets/images/facebook.png" alt="">
-            <img src="./assets/images/whatsapp.png" alt="">
+            <img src="./assets/images/instagram.png" alt="instagram" onclick="window.open('<?= $settings->getInstagram() ?>','blank')">
+            <img src="./assets/images/facebook.png" alt="facebook" onclick="window.open('<?= $settings->getFacebook() ?>','blank')">
+            <img src="./assets/images/whatsapp.png" alt="whatsapp" onclick="window.open('https://api.whatsapp.com/send?phone=<?= $settings->getWhatsapp() ?>','blank')">
         </div>
     </header>
     <section class="search">
-        <select name="order" id="orderSelect" title="order" class="select">
+        <!-- <select name="order" id="orderSelect" title="order" class="select">
             <option value="#">Orden por defecto</option>
             <option value="#">Orden por defecto</option>
             <option value="#">Orden por defecto</option>
             <option value="#">Orden por defecto</option>
-        </select>
+        </select> -->
     </section>
     <section class="content">
-        <!-- <div class="filter">
-
-        </div> -->
         <div class="products">
             <div class="content">
 
@@ -241,6 +241,7 @@
             let $clone = document.importNode($template,true);
             $fragment.appendChild($clone);
             listProductsCarshop$.appendChild($fragment)
+            calcTotal();
             showMessage('Producto agregado');
         }
         const addCant = (id,stock) =>{
@@ -250,6 +251,7 @@
             }else{
                 showMessage('No existe mas stock','warning')
             }
+            calcTotal()
         }
         const removeCant = (id) => {
             const cant$ = document.getElementById(`carshop-${id}`)
@@ -259,9 +261,9 @@
             }else{
                 cant$.textContent = +cant$.textContent - 1
             }
+            calcTotal()
         }
-
-        const sendMessageWsp = () => {
+        const getProducts = () => {
             const $carshopProducts = document.getElementById('listProductsCarshop');
             const $listProducts = [...$carshopProducts.querySelectorAll('li')];
             const products = []
@@ -274,16 +276,34 @@
                 }
                 products.push(product)
             })
+            return products 
+        }
+
+        const sendMessageWsp = (phone) => {
+            const totalPrice = calcTotal();
+            const products = getProducts();
             let msgProducts = '';
             products.forEach(({name,cant,price}) => {
-                msgProducts += `${name} (${cant}) unidades por ${price} cada una, `
+                msgProducts += `${name} (${cant}) unidades por $${price} cada una, `
             })
-            const msg = `Hola quisiera comprar ${msgProducts}`
+            const msg = `Hola quisiera comprar ${msgProducts} por un total de $${totalPrice}.`
             const $a = document.createElement('a')
-            $a.setAttribute('href',`https://api.whatsapp.com/send?phone=56920085211&text=${msg}&type=phone_number&app_absent=0`)
+            $a.setAttribute('href',`https://api.whatsapp.com/send?phone=${phone}&text=${msg}&type=phone_number&app_absent=0`)
             $a.setAttribute('target','_blank')
             $a.click()
         }
+        const calcTotal = () => {
+            const $total = document.getElementById('cashop-total');
+            const products = getProducts();
+            let total = 0;
+            products.forEach(({cant,price}) => {
+                total += cant * price;
+            })
+            $total.textContent = `Total: ${total} clp`;
+            return total;
+        }
+        
+
     </script>
 </body>
 </html>
