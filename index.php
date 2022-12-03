@@ -101,10 +101,23 @@
                 </template>
             </ul>
             <div class="carshop__footer">
-                <a class="send-button" href="https://api.whatsapp.com/send?phone=56920085211&text=Hola&type=phone_number&app_absent=0" target="_blank">
+                <!-- <a 
+                    class="send-button" 
+                    href="https://api.whatsapp.com/send?phone=56920085211&text=Hola&type=phone_number&app_absent=0" 
+                    target="_blank"
+                    onclick="sendMessageWsp()"
+                    >
                     Hacer pedido
                     <img src="./assets/images/whatsapp.png" title="img"/>
-                </a>
+                </a> -->
+                <span
+                    class="send-button" 
+                    id="send-button-msg-wsp"
+                    onclick="sendMessageWsp()"
+                    >
+                    Hacer pedido
+                    <img src="./assets/images/whatsapp.png" title="img"/>
+                </span>
             </div>
         </div>
         <div class="shadow-carshop" id="shadow-carshop" onclick="toggleCarshop()"></div>
@@ -145,6 +158,7 @@
                                     <span class='product__price'>".$product->getPrice()."</span>
                                 </div>
                                 <button class='button' onclick='addCarshop(
+                                    \"".str_replace('"', '\"', $product->getId()) ."\",
                                     \"".str_replace('"', '\"', $product->getTitle()) ."\",
                                     \"".str_replace('"', '\"', $product->getStock()) ."\",
                                     \"".str_replace('"', '\"', $product->getPrice()) ."\",
@@ -211,7 +225,7 @@
     </footer>
     <script src="./js/main.js"></script>
     <script>
-        const addCarshop = (title,stock,price,image) => {
+        const addCarshop = (id,title,stock,price,image) => {
             const product = { title, stock:Number(stock), price, image }
             const listProductsCarshop$ = document.getElementById('listProductsCarshop');
             const $template = document.getElementById("product-carshop-template").content;
@@ -219,11 +233,56 @@
             $template.querySelector(".carshop__title").textContent = title;
             $template.querySelector(".carshop__img").src = 'data:image/gif;base64,'+image;
             $template.querySelector(".carshop__price").textContent = price;
-    
+            
+            $template.querySelector(".carshop__add").setAttribute('onclick',`addCant(${id},${stock})`)
+            $template.querySelector(".carshop__cant").setAttribute('id',`carshop-${id}`)
+            $template.querySelector(".carshop__remove").setAttribute('onclick',`removeCant(${id})`)
+
             let $clone = document.importNode($template,true);
             $fragment.appendChild($clone);
             listProductsCarshop$.appendChild($fragment)
             showMessage('Producto agregado');
+        }
+        const addCant = (id,stock) =>{
+            const cant$ = document.getElementById(`carshop-${id}`)
+            if(+cant$.textContent !== stock){
+                cant$.textContent = +cant$.textContent + 1
+            }else{
+                showMessage('No existe mas stock','warning')
+            }
+        }
+        const removeCant = (id) => {
+            const cant$ = document.getElementById(`carshop-${id}`)
+            if(+cant$.textContent === 1){
+                cant$.parentElement.parentElement.remove()
+                showMessage('Producto borrado','warning')
+            }else{
+                cant$.textContent = +cant$.textContent - 1
+            }
+        }
+
+        const sendMessageWsp = () => {
+            const $carshopProducts = document.getElementById('listProductsCarshop');
+            const $listProducts = [...$carshopProducts.querySelectorAll('li')];
+            const products = []
+
+            $listProducts.map(({children})=>{
+                const product = {
+                    name: children[2].children[0].innerText,
+                    cant: +children[0].children[1].innerText,
+                    price: +children[2].children[1].innerText,
+                }
+                products.push(product)
+            })
+            let msgProducts = '';
+            products.forEach(({name,cant,price}) => {
+                msgProducts += `${name} (${cant}) unidades por ${price} cada una, `
+            })
+            const msg = `Hola quisiera comprar ${msgProducts}`
+            const $a = document.createElement('a')
+            $a.setAttribute('href',`https://api.whatsapp.com/send?phone=56920085211&text=${msg}&type=phone_number&app_absent=0`)
+            $a.setAttribute('target','_blank')
+            $a.click()
         }
     </script>
 </body>
