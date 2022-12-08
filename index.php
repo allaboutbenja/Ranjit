@@ -127,7 +127,7 @@
 
         <div class="header__title">
             <h1><?= $settings->getBanner() ?></h1>
-            <span><?= $settings->getSubBanner() ?></span>
+            <span>Natural - Vegano - Sin Gluten</span>
         </div>
         <div class="header__redes">
             <img src="./assets/images/instagram.png" alt="instagram" onclick="window.open('<?= $settings->getInstagram() ?>','blank')">
@@ -303,7 +303,6 @@
             return total;
         }
         
-
     </script>
 </body>
 </html>
